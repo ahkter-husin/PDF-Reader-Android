@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,6 +24,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     ListView listview_pdf;
+    EditText et_url;
+    Button open_url;
     public static ArrayList<File> pdfarray =new ArrayList<>();
     PDF_Adapter obj_adapter;
     public  static int REQUEST_PERMISSION = 1;
@@ -35,13 +39,28 @@ public class MainActivity extends AppCompatActivity {
 
         listview_pdf=(ListView)findViewById(R.id.listview_pdf);
         dir = new File(Environment.getExternalStorageDirectory().toString());
+        et_url=(EditText)findViewById(R.id.Url);
+        open_url=(Button)findViewById(R.id.open_url);
 
         permission_fun();
+
+        open_url.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (et_url.getText().toString().trim() != "") {
+                    Intent intent = new Intent(getApplicationContext(), ViewPDFFiles.class);
+                    intent.putExtra("type", "url");
+                    intent.putExtra("url",et_url.getText().toString() );
+                    startActivity(intent);
+                }
+            }
+        });
 
         listview_pdf.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(),ViewPDFFiles.class);
+                intent.putExtra("type","local");
                 intent.putExtra("position",position);
                 startActivity(intent);
             }
