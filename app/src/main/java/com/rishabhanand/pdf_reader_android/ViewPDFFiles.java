@@ -1,15 +1,13 @@
 package com.rishabhanand.pdf_reader_android;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
+
 import android.net.Uri;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
-
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
+
+import java.io.File;
 
 public class ViewPDFFiles extends AppCompatActivity {
 
@@ -37,21 +35,10 @@ public class ViewPDFFiles extends AppCompatActivity {
 
 
     private void displayPDF() {
-
-        if(type.equals("local")) {
             pdfView.fromFile(MainActivity.pdfarray.get(position))
                     .enableSwipe(true)
                     .enableAnnotationRendering(true)
                     .scrollHandle(new DefaultScrollHandle(this))
                     .load();
-        }
-        else if (type.equals("url")) {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(browserIntent);
-        }
-
-
-
     }
-
 }
